@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.IOSched" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:showDividers">none</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>
