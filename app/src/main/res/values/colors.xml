@@ -4,4 +4,101 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="bg_center">#34344F</color>
+    <color name="bg_start">#6C6D7F</color>
+    <color name="purple">#cc73e1</color>
+    <color name="red">#ffff4444</color>
+    <color name="divider_black">#1e000000</color>
+    <color name="hint_black">#42000000</color>
+    <color name="secondary_text_black">#89000000</color>
+    <color name="primary_text_black">#dd000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent85">#15000000</color>
+    <color name="transparent50">#50000000</color>
+    <color name="transparent40">#40000000</color>
+    <color name="Azure">#F0FFFF</color>
+    <color name="grey">#ffdedede</color>
+    <color name="btn_press_color">#FFa5281b</color>
+    <color name="btn_unpress_color">#FFc0392b</color>
+    <color name="defDividerColor">#11000000</color>
+    <color name="defDialogColor">#FFE74C3C</color>
+    <color name="bg_video_controler">#b2ffffff</color>
+    <color name="bg_grey">#efeff4</color>
+    <color name="line_gray">#c8c7cc</color>
+    <color name="correct_green">#6db53c</color>
+    <color name="incorrect_red">#ff321e</color>
+    <color name="current_blue">#ff0000ff</color>
+    <color name="other_blue">#ff000088</color>
+    <color name="DimGray">#696969</color>
+    <color name="DarkGray">#A9A9A9</color>
+    <color name="courseLine">#9e9f9f</color>
+    <color name="blue">#ff0099cc</color>
+
+    <color name="history_bg_2">#EE6B52</color>
+    <color name="popupwindow_bt_text_color">#8d8d8d</color>
+    <color name="popupwindow_bg">#f6f6f6</color>
+
+    <color name="top_bar_normal_bg">#4ebcd3</color>
+    <color name="gray_normal">#666667</color>
+    <color name="gray_444">#444444</color>
+    <color name="btn_white_normal">#f7f8f8</color>
+    <color name="btn_white_pressed">#b5b5b6</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="btn_blue_normal">#1e90ff</color>
+    <color name="btn_blue_pressed">#0066FF</color>
+    <color name="grid_state_pressed">#1Affffff</color>
+    <color name="grid_state_focused">#80000000</color>
+    <color name="common_bg">#fcfcfc</color>
+    <color name="divider_list">#d4d4d4</color>
+    <color name="grid_bg">#DDFFFFFF</color>
+    <color name="bg_dark_grey">#E0E0E0</color>
+
+    <color name="login_ll_bg">#88000000</color>
+    <color name="login_menu_bg">#22000000</color>
+    <color name="login_menu_bg_pressed">#56FFFFFF</color>
+    <color name="login_menu_bg_normal">#44FFFFFF</color>
+
+    <color name="yellow_light_5">#f0b800</color>
+    <color name="yellow_light_6">#f89700</color>
+    <color name="teacher_gauide_color_yellow">#ffef63</color>
+
+    <color name="default_modules_title">#999999</color>
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+
+    <!--适配-->
+    <color name="shit_yellow">#ffcc24</color>
+    <color name="yellow_light">#fcd196</color>
+    <color name="yellow_light_1">#edb500</color>
+    <color name="yellow_light_2">#ffdb6f</color>
+    <color name="yellow_light_3">#fbcf3e</color>
+    <color name="yellow_light_4">#ffd857</color>
+    <color name="black_222">#2e2e2e</color>
+    <color name="black_333">#323232</color>
+    <color name="black_666">#6a6a6a</color>
+    <color name="black_888">#808080</color>
+    <color name="black_606">#606060</color>
+    <color name="black_6e6">#e6e6e6</color>
+    <color name="recorder_comment_text_able">#808080</color>
+
+    <color name="grey_dark">#262626</color>
+    <color name="grey_light">#d9dadb</color>
+    <color name="grey_light_1">#d8d8d8</color>
+    <color name="grey_light_2">#cfcfcf</color>
+    <color name="grey_light_3">#979797</color>
+    <color name="grey_light_4">#828282</color>
+    <color name="grey_light_5">#cccccc</color>
+    <color name="grey_light_7">#aaaaaa</color>
+    <color name="grey_light_9">#929292</color>
+    <color name="grey_light_10">#a6a7a7</color>
+    <color name="grey_light_11">#a3a3a3</color>
+
+    <color name="red_light">#fe5032</color>
+    <color name="blue_light">#96d2fc</color>
 </resources>

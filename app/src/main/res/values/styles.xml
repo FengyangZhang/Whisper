@@ -8,11 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.IOSched" parent="AppTheme">
+    <style name="NoHeaderWithAnim">
         <item name="android:windowNoTitle">true</item>
         <item name="android:showDividers">none</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/FeelyouWindowAnimTheme</item>
+    </style>
+    <style name="NoHeader">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:showDividers">none</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="FeelyouWindowAnimTheme" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenExitAnimation">@anim/out_from_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/in_from_right</item>
+        <item name="android:activityCloseExitAnimation">@anim/out_from_left</item>
     </style>
 
 </resources>

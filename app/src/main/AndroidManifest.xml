@@ -7,9 +7,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.IOSched">
+        android:theme="@style/NoHeader">
         <activity android:name=".LoadingActivity"
-                  android:theme="@style/Theme.IOSched"
+                  android:theme="@style/NoHeaderWithAnim"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".WhisperActivity"
+                  android:theme="@style/NoHeaderWithAnim"/>
     </application>
 
 </manifest>
