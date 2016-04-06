@@ -51,4 +51,10 @@ public abstract class BaseActivity extends Activity{
     public abstract void setting();
 
     public abstract void setListener();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
 }

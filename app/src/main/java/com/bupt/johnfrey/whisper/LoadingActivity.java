@@ -2,6 +2,7 @@ package com.bupt.johnfrey.whisper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,6 +28,7 @@ public class LoadingActivity extends BaseActivity {
         newWhisper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Test","onClick");
                 animation = AnimationUtils.loadAnimation(
                         LoadingActivity.this, R.anim.scale);
                 newWhisper.setAnimation(animation);
@@ -37,4 +39,43 @@ public class LoadingActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        Log.d("Test","onCreated");
+    }
+    @Override
+    protected void onStop() {
+        Log.d("Test","onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d("Test","onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("Test","onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("Test","onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d("Test","onRestart");
+        super.onRestart();
+    }
+    @Override
+    protected void onDestroy(){
+        Log.d("Test","onDestroy");
+        super.onDestroy();
+    }
 }
