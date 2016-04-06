@@ -21,28 +21,43 @@ public class WhisperActivity extends BaseActivity {
     @Bind(R.id.ib_header_right)
     ImageButton headerRight;
 
+    ImageView icon;
+    FloatingActionButton actionButton;
+    SubActionButton.Builder itemBuilder;
+    ImageView itemIcon;
+    SubActionButton button1;
+    FloatingActionMenu actionMenu;
+
     public void getArgs(Bundle var1){}
 
     public int setView(){return R.layout.aty_whisper;}
 
     public void initView(){
-        ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageResource(R.drawable.float_button);
+        icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.float_menu);
 
-        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+        actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 .build();
 
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-// repeat many times:
-        ImageView itemIcon = new ImageView(this);
-        itemIcon.setImageResource(R.drawable.float_menu);
-        SubActionButton button1 = itemBuilder.setContentView(itemIcon).build();
+        itemBuilder = new SubActionButton.Builder(this);
+        // repeat many times:
+        itemIcon = new ImageView(this);
+        itemIcon.setImageResource(R.drawable.float_button);
+        button1 = itemBuilder.setContentView(itemIcon).build();
 
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+        actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(button1)
                 .attachTo(actionButton)
                 .build();
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     public void setting(){}
