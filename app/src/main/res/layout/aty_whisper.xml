@@ -3,10 +3,17 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:fitsSystemWindows="true">
+              android:fitsSystemWindows="true"
+                android:id="@+id/ll_whisper">
     <include layout="@layout/inc_header"></include>
     <EditText
+        android:id="@+id/et_whisper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Azure"/>
+        android:background="@color/white"
+        android:cursorVisible="true"
+        android:gravity="top"
+        android:textColor="@color/black"
+        android:clickable="true"
+        android:focusable="true"/>
 </LinearLayout>

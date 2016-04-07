@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -13,6 +16,7 @@ import butterknife.ButterKnife;
  *  Created by zhangfengyang on 16/4/1
  */
 public abstract class BaseActivity extends Activity{
+    public GestureDetector gestureDetector;
     public Context context;
     public Activity activity;
     @Override
@@ -20,6 +24,7 @@ public abstract class BaseActivity extends Activity{
         setStyle();
         super.onCreate(savedInstanceState);
         this.getArgs(this.getIntent().getExtras());
+        gestureDetector = new GestureDetector(context, new MyGestureListener());
         this.setContentView(this.setView());
         ButterKnife.bind(this);
         this.activity = this;
@@ -52,6 +57,33 @@ public abstract class BaseActivity extends Activity{
 
     public abstract void setListener();
 
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override //双击
+        public boolean onDoubleTap(MotionEvent e) {
+            onDoubleTapView();
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            onSingleTapConfirmedView();
+            return super.onSingleTapConfirmed(e);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.d("TEST","fling---------------");
+            onFlingView(e1, e2, velocityX, velocityY);
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
+    }
+
+    public void onSingleTapConfirmedView(){}
+
+    public void onDoubleTapView(){}
+
+    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){}
     @Override
     protected void onDestroy() {
         super.onDestroy();
