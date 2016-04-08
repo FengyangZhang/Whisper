@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -23,6 +24,8 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 
@@ -81,7 +84,11 @@ public class WhisperActivity extends BaseActivity {
                 photoPopup.showAtLocation(activity.findViewById(R.id.ll_whisper), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String str = formatter.format(curDate);
+        etWhisper.setText(str);
+        etWhisper.requestFocus();
     }
 
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
@@ -112,12 +119,18 @@ public class WhisperActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 headerRight.setImageResource(R.drawable.whisper_save_pressed);
-                scanExistingFiles();
-                saveWhisper(etWhisper.getText().toString().trim(), filePath, fileName);
-                finish();
+                if(etWhisper.getText().toString().trim().length() == 0){
+                    Toast.makeText(WhisperActivity.this, "Empty input", Toast.LENGTH_SHORT).show();
+                    headerRight.setImageResource(R.drawable.whisper_save_unpressed);
+                }
+                else {
+                    scanExistingFiles();
+                    saveWhisper(etWhisper.getText().toString().trim(), filePath, fileName);
+                    finish();
+                }
             }
         });
-        etWhisper.setOnTouchListener(new View.OnTouchListener() {
+        llWhisper.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 gestureDetector.onTouchEvent(event);
@@ -128,6 +141,7 @@ public class WhisperActivity extends BaseActivity {
 
     @Override
     public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+        super.onFlingView(e1,e2,velocityX,velocityY);
         if(e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 4000 && Math.abs(e1.getX() - e2.getX()) < 150){
             InputMethodManager inputMethodManager =
                     (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -136,9 +150,11 @@ public class WhisperActivity extends BaseActivity {
     }
     @Override
     public void onSingleTapConfirmedView(){
+        super.onSingleTapConfirmedView();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
 
 
     public void saveWhisper(String strcontent, String filePath, String fileName) {

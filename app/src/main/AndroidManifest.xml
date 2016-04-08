@@ -21,6 +21,9 @@
         <activity android:name=".WhisperActivity"
                   android:theme="@style/NoHeaderWithAnim"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".ArchiveActivity"
+                  android:theme="@style/NoHeaderWithAnim"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

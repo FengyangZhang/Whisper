@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Whisper</string>
+    <string name="new_whisper">New Whisper...</string>
     <string name="whisper_edit">Whispering...</string>
+    <string name="archive">Whispers</string>
+    <string name="slide_left">slide left for archive...</string>
 </resources>

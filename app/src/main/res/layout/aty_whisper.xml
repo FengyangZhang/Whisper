@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:fitsSystemWindows="true"
                 android:id="@+id/ll_whisper">
-    <include layout="@layout/inc_header"></include>
+    <include layout="@layout/header_whisper"></include>
     <EditText
         android:id="@+id/et_whisper"
         android:layout_width="match_parent"
@@ -15,5 +15,6 @@
         android:gravity="top"
         android:textColor="@color/black"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true"
+        />
 </LinearLayout>

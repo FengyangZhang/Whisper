@@ -2,10 +2,11 @@ package com.bupt.johnfrey.whisper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -14,6 +15,8 @@ import butterknife.Bind;
 public class LoadingActivity extends BaseActivity {
     @Bind(R.id.new_whisper)
     TextView newWhisper;
+    @Bind(R.id.ll_loading)
+    LinearLayout llLoading;
     Animation animation;
     public void getArgs(Bundle var1){}
 
@@ -28,7 +31,6 @@ public class LoadingActivity extends BaseActivity {
         newWhisper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Test","onClick");
                 animation = AnimationUtils.loadAnimation(
                         LoadingActivity.this, R.anim.scale);
                 newWhisper.setAnimation(animation);
@@ -37,45 +39,20 @@ public class LoadingActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        llLoading.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Log.d("Test","onCreated");
-    }
-    @Override
-    protected void onStop() {
-        Log.d("Test","onStop");
-        super.onStop();
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d("Test","onStart");
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d("Test","onResume");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d("Test","onPause");
-        super.onPause();
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.d("Test","onRestart");
-        super.onRestart();
-    }
-    @Override
-    protected void onDestroy(){
-        Log.d("Test","onDestroy");
-        super.onDestroy();
+    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+        if(e1.getX() - e2.getX() > 30 && Math.abs(velocityX) > 2000 && Math.abs(e1.getY() - e2.getY()) < 150){
+            Intent intent = new Intent(activity,ArchiveActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -21,6 +21,7 @@ public abstract class BaseActivity extends Activity{
     public Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        Log.d("TEST",getClass().getSimpleName());
         setStyle();
         super.onCreate(savedInstanceState);
         this.getArgs(this.getIntent().getExtras());
@@ -61,19 +62,21 @@ public abstract class BaseActivity extends Activity{
 
         @Override //双击
         public boolean onDoubleTap(MotionEvent e) {
+            super.onDoubleTap(e);
             onDoubleTapView();
             return true;
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
+            super.onSingleTapConfirmed(e);
             onSingleTapConfirmedView();
             return super.onSingleTapConfirmed(e);
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            Log.d("TEST","fling---------------");
+            super.onFling(e1,e2,velocityX,velocityY);
             onFlingView(e1, e2, velocityX, velocityY);
             return super.onFling(e1, e2, velocityX, velocityY);
         }
