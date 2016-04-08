@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.squareup.otto.Subscribe;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +31,8 @@ public class ArchiveActivity extends BaseActivity {
     ArrayList<HashMap<String,Object>> archiveItem;
     ArchiveAdapter archiveAdapter;
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
-    String fileName = "whisper_0.txt";
+    File menu;
+    File[] files;
 
     @Override
     public void getArgs(Bundle var1) {
@@ -44,17 +47,18 @@ public class ArchiveActivity extends BaseActivity {
     @Override
     public void initView() {
         archiveItem = new ArrayList<>();
-        File file = new File(filePath+fileName);
+        menu = new File(filePath);
+        files = menu.listFiles();
         int i = 0;
         String content;
         String time;
         Boolean isFirstLine;
-        while(file.exists()){
+        for(int j = 0;j < files.length; j++){
             isFirstLine = true;
-            time="";
+            time = "";
             content = "";
             try {
-                FileInputStream in = new FileInputStream(file);
+                FileInputStream in = new FileInputStream(files[j]);
                 if (in != null) {
                     InputStreamReader inputreader = new InputStreamReader(in);
                     BufferedReader buffreader = new BufferedReader(inputreader);
@@ -75,8 +79,6 @@ public class ArchiveActivity extends BaseActivity {
                     map.put("ItemText", content);
                     archiveItem.add(map);
                     i++;
-                    fileName = "whisper_"+i+".txt";
-                    file = new File(filePath+fileName);
                 }
             }
             catch (java.io.FileNotFoundException e)
@@ -112,5 +114,10 @@ public class ArchiveActivity extends BaseActivity {
 
             }
         });
+    }
+    @Subscribe
+    public void onDeleteArchiveEvent(DeleteArchiveEvent event){
+        int position = event.getPosition();
+        Log.d("TEST","+++++++++delete"+position);
     }
 }

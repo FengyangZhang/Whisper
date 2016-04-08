@@ -1,7 +1,7 @@
 package com.bupt.johnfrey.whisper;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,8 @@ public class ArchiveAdapter extends BaseAdapter {
     ArrayList<HashMap<String,Object>> archiveItem;
     Context context;
     LayoutInflater mInflater;
+    String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
+
     public ArchiveAdapter(Context context, ArrayList<HashMap<String,Object>> archiveItem){
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
@@ -49,7 +51,7 @@ public class ArchiveAdapter extends BaseAdapter {
         holder.bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("BaseAdapterTest", "你点击了按钮" + position);
+                    OttoManager.getInstance().post(new DeleteArchiveEvent(position));
             }
         });
 

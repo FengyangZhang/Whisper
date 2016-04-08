@@ -91,5 +91,6 @@ public abstract class BaseActivity extends Activity{
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        OttoManager.unregister(this);
     }
 }
