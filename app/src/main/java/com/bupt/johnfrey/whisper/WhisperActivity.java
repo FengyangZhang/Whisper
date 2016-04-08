@@ -6,6 +6,9 @@ package com.bupt.johnfrey.whisper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +20,9 @@ import android.widget.LinearLayout;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+
+import java.io.File;
+import java.io.RandomAccessFile;
 
 import butterknife.Bind;
 
@@ -31,6 +37,8 @@ public class WhisperActivity extends BaseActivity {
     ImageButton headerRight;
 
     WhisperPopupWindow photoPopup;
+    String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
+    String fileName = "whisper_0.txt";
 
     public void getArgs(Bundle var1){}
 
@@ -68,14 +76,28 @@ public class WhisperActivity extends BaseActivity {
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                photoPopup = new WhisperPopupWindow(WhisperActivity.this, itemsOnClick);
-//                //显示窗口
-//                menuWindow.showAtLocation(MainActivity.this.findViewById(R.id.main), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                photoPopup = new WhisperPopupWindow(WhisperActivity.this, itemsOnClick);
+                //显示窗口
+                photoPopup.showAtLocation(activity.findViewById(R.id.ll_whisper), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
 
     }
 
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            photoPopup.dismiss();
+            switch(v.getId()){
+                case R.id.btn_take_photo:
+                    break;
+                case R.id.btn_pick_photo:
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
     public void setting(){}
 
     public void setListener(){
@@ -90,6 +112,8 @@ public class WhisperActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 headerRight.setImageResource(R.drawable.whisper_save_pressed);
+                scanExistingFiles();
+                saveWhisper(etWhisper.getText().toString().trim(), filePath, fileName);
                 finish();
             }
         });
@@ -114,5 +138,67 @@ public class WhisperActivity extends BaseActivity {
     public void onSingleTapConfirmedView(){
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    public void saveWhisper(String strcontent, String filePath, String fileName) {
+        // 生成文件夹之后，再生成文件，不然会出错
+        makeFilePath(filePath, fileName);
+
+        String strFilePath = filePath + fileName;
+        // 每次写入时，都换行写
+        String strContent = strcontent + "\r\n";
+        try {
+            File file = new File(strFilePath);
+            if (!file.exists()) {
+                Log.d("TestFile", "Create the file:" + strFilePath);
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            RandomAccessFile raf = new RandomAccessFile(file, "rwd");
+            raf.seek(file.length());
+            raf.write(strContent.getBytes());
+            raf.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 生成文件
+    public File makeFilePath(String filePath, String fileName) {
+        File file = null;
+        makeRootDirectory(filePath);
+        try {
+            file = new File(filePath + fileName);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    // 生成文件夹
+    public static void makeRootDirectory(String filePath) {
+        File file = null;
+        try {
+            file = new File(filePath);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void scanExistingFiles(){
+        int i = 0;
+        File file = new File(filePath + fileName);
+        while(file.exists()){
+            i++;
+            fileName = "whisper_"+i+".txt";
+            file = new File(filePath+fileName);
+        }
     }
 }
