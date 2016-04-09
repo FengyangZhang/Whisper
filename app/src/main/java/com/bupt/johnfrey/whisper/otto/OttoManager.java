@@ -1,4 +1,4 @@
-package com.bupt.johnfrey.whisper;
+package com.bupt.johnfrey.whisper.otto;
 
 import com.squareup.otto.Bus;
 

@@ -1,5 +1,6 @@
-package com.bupt.johnfrey.whisper;
+package com.bupt.johnfrey.whisper.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -7,7 +8,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.bupt.johnfrey.whisper.accessories.ArchiveAdapter;
+import com.bupt.johnfrey.whisper.BaseActivity;
+import com.bupt.johnfrey.whisper.otto.DeleteArchiveEvent;
+import com.bupt.johnfrey.whisper.R;
+import com.bupt.johnfrey.whisper.otto.ReadArchiveEvent;
 import com.squareup.otto.Subscribe;
 
 import java.io.BufferedReader;
@@ -28,6 +35,8 @@ public class ArchiveActivity extends BaseActivity {
     ImageButton headerBack;
     @Bind(R.id.lv_archive)
     ListView lvArchive;
+    @Bind(R.id.tv_no_archive)
+    TextView tvNoArchive;
     ArrayList<HashMap<String,Object>> archiveItem;
     ArchiveAdapter archiveAdapter;
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
@@ -49,11 +58,11 @@ public class ArchiveActivity extends BaseActivity {
         archiveItem = new ArrayList<>();
         menu = new File(filePath);
         files = menu.listFiles();
-        int i = 0;
         String content;
         String time;
         Boolean isFirstLine;
-        for(int j = 0;j < files.length; j++){
+        if(files.length == 0){tvNoArchive.setVisibility(View.VISIBLE);}
+        for(int j = files.length-1;j >= 0; j--){
             isFirstLine = true;
             time = "";
             content = "";
@@ -78,7 +87,6 @@ public class ArchiveActivity extends BaseActivity {
                     map.put("ItemTime",time);
                     map.put("ItemText", content);
                     archiveItem.add(map);
-                    i++;
                 }
             }
             catch (java.io.FileNotFoundException e)
@@ -118,6 +126,38 @@ public class ArchiveActivity extends BaseActivity {
     @Subscribe
     public void onDeleteArchiveEvent(DeleteArchiveEvent event){
         int position = event.getPosition();
-        Log.d("TEST","+++++++++delete"+position);
+        files[files.length-position-1].delete();
+        archiveItem.remove(position);
+        archiveAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void onReadArchiveEvent(ReadArchiveEvent event){
+        int position = event.getPosition();
+        String content = "";
+        try {
+            FileInputStream in = new FileInputStream(files[files.length-position-1]);
+            if (in != null) {
+                InputStreamReader inputreader = new InputStreamReader(in);
+                BufferedReader buffreader = new BufferedReader(inputreader);
+                String line;
+                //分行读取
+                while ((line = buffreader.readLine()) != null) {
+                    content += line + "\n";
+                }
+                in.close();
+            }
+        }
+        catch (java.io.FileNotFoundException e)
+        {
+            Log.d("TestFile", "The File doesn't not exist.");
+        }
+        catch (IOException e)
+        {
+            Log.d("TestFile", e.getMessage());
+        }
+        Intent intent = new Intent(activity, ReadArchiveActivity.class);
+        intent.putExtra("content",content);
+        startActivity(intent);
     }
 }

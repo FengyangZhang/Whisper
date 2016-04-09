@@ -1,4 +1,4 @@
-package com.bupt.johnfrey.whisper;
+package com.bupt.johnfrey.whisper.activities;
 
 /**
  *  Created by zhangfengyang on 16/4/5
@@ -16,8 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bupt.johnfrey.whisper.BaseActivity;
+import com.bupt.johnfrey.whisper.R;
+import com.bupt.johnfrey.whisper.accessories.WhisperPopupWindow;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -38,10 +42,13 @@ public class WhisperActivity extends BaseActivity {
     ImageButton headerBack;
     @Bind(R.id.ib_header_right)
     ImageButton headerRight;
+    @Bind(R.id.tv_time)
+    TextView tvTime;
 
     WhisperPopupWindow photoPopup;
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
-    String fileName = "whisper_0.txt";
+    String fileName;
+    String time;
 
     public void getArgs(Bundle var1){}
 
@@ -86,8 +93,9 @@ public class WhisperActivity extends BaseActivity {
         });
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String str = formatter.format(curDate);
-        etWhisper.setText(str);
+        time = formatter.format(curDate)+"\r\n";
+        tvTime.setText(time);
+        fileName = "Whisper_"+time+".txt";
         etWhisper.requestFocus();
     }
 
@@ -124,8 +132,7 @@ public class WhisperActivity extends BaseActivity {
                     headerRight.setImageResource(R.drawable.whisper_save_unpressed);
                 }
                 else {
-                    scanExistingFiles();
-                    saveWhisper(etWhisper.getText().toString().trim(), filePath, fileName);
+                    saveWhisper(etWhisper.getText().toString().trim(),time, filePath, fileName);
                     finish();
                 }
             }
@@ -157,12 +164,12 @@ public class WhisperActivity extends BaseActivity {
 
 
 
-    public void saveWhisper(String strcontent, String filePath, String fileName) {
+    public void saveWhisper(String strcontent, String time, String filePath, String fileName) {
         makeFilePath(filePath, fileName);
 
         String strFilePath = filePath + fileName;
 
-        String strContent = strcontent + "\r\n";
+        String strContent = time + strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
             if (!file.exists()) {
@@ -205,15 +212,6 @@ public class WhisperActivity extends BaseActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-    public void scanExistingFiles(){
-        int i = 0;
-        File file = new File(filePath + fileName);
-        while(file.exists()){
-            i++;
-            fileName = "whisper_"+i+".txt";
-            file = new File(filePath+fileName);
         }
     }
 }

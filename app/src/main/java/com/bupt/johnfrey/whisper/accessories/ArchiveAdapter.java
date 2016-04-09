@@ -1,4 +1,4 @@
-package com.bupt.johnfrey.whisper;
+package com.bupt.johnfrey.whisper.accessories;
 
 import android.content.Context;
 import android.os.Environment;
@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.bupt.johnfrey.whisper.otto.DeleteArchiveEvent;
+import com.bupt.johnfrey.whisper.otto.OttoManager;
+import com.bupt.johnfrey.whisper.R;
+import com.bupt.johnfrey.whisper.otto.ReadArchiveEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +56,13 @@ public class ArchiveAdapter extends BaseAdapter {
         holder.bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    OttoManager.getInstance().post(new DeleteArchiveEvent(position));
+                OttoManager.getInstance().post(new DeleteArchiveEvent(position));
+            }
+        });
+        holder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OttoManager.getInstance().post(new ReadArchiveEvent(position));
             }
         });
 

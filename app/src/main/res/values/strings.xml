@@ -4,4 +4,5 @@
     <string name="whisper_edit">Whispering...</string>
     <string name="archive">Whispers</string>
     <string name="slide_left">slide left for archive...</string>
+    <string name="no_archive">No archive...</string>
 </resources>

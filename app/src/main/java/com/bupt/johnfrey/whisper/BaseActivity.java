@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.bupt.johnfrey.whisper.otto.OttoManager;
+
 import butterknife.ButterKnife;
 
 /**

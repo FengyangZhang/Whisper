@@ -6,6 +6,16 @@
               android:fitsSystemWindows="true"
                 android:id="@+id/ll_whisper">
     <include layout="@layout/header_whisper"></include>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/tv_time"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:textSize="20sp"/>
+
     <EditText
         android:id="@+id/et_whisper"
         android:layout_width="match_parent"

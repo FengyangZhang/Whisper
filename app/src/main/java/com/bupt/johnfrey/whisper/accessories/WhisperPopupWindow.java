@@ -1,4 +1,4 @@
-package com.bupt.johnfrey.whisper;
+package com.bupt.johnfrey.whisper.accessories;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
+
+import com.bupt.johnfrey.whisper.R;
 
 /**
  * Created by zhangfengyang on 2016/4/6.

@@ -8,6 +8,16 @@
     android:background="@color/white">
     <include layout="@layout/header_archive"></include>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/bg_dark_grey"
+        android:text="@string/no_archive"
+        android:visibility="gone"
+        android:id="@+id/tv_no_archive"
+        android:gravity="center"
+        />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
