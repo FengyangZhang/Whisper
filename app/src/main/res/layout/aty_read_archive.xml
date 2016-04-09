@@ -10,5 +10,6 @@
         android:layout_height="match_parent"
         android:text=""
         android:id="@+id/tv_archive_text"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:textSize="30sp"/>
 </LinearLayout>

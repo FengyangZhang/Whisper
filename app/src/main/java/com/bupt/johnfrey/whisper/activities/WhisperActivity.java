@@ -7,6 +7,8 @@ package com.bupt.johnfrey.whisper.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.bupt.johnfrey.whisper.BaseActivity;
 import com.bupt.johnfrey.whisper.R;
 import com.bupt.johnfrey.whisper.accessories.WhisperPopupWindow;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -49,12 +52,20 @@ public class WhisperActivity extends BaseActivity {
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
     String fileName;
     String time;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
-    public void getArgs(Bundle var1){}
+    public void getArgs(Bundle var1) {
+    }
 
-    public int setView(){return R.layout.aty_whisper;}
+    public int setView() {
+        return R.layout.aty_whisper;
+    }
 
-    public void initView(){
+    public void initView() {
         ImageView icon = new ImageView(this); // Create an icon
         icon.setImageResource(R.drawable.float_menu);
 
@@ -86,36 +97,25 @@ public class WhisperActivity extends BaseActivity {
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photoPopup = new WhisperPopupWindow(WhisperActivity.this, itemsOnClick);
+                photoPopup = new WhisperPopupWindow(WhisperActivity.this, camera_listener);
                 //显示窗口
-                photoPopup.showAtLocation(activity.findViewById(R.id.ll_whisper), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                photoPopup.showAtLocation(activity.findViewById(R.id.ll_whisper), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        time = formatter.format(curDate)+"\r\n";
+        time = formatter.format(curDate) + "\r\n";
         tvTime.setText(time);
-        fileName = "Whisper_"+time+".txt";
+        fileName = "Whisper_" + time + ".txt";
         etWhisper.requestFocus();
     }
 
-    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            photoPopup.dismiss();
-            switch(v.getId()){
-                case R.id.btn_take_photo:
-                    break;
-                case R.id.btn_pick_photo:
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-    public void setting(){}
 
-    public void setListener(){
+
+    public void setting() {
+    }
+
+    public void setListener() {
         headerBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,12 +127,11 @@ public class WhisperActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 headerRight.setImageResource(R.drawable.whisper_save_pressed);
-                if(etWhisper.getText().toString().trim().length() == 0){
+                if (etWhisper.getText().toString().trim().length() == 0) {
                     Toast.makeText(WhisperActivity.this, "Empty input", Toast.LENGTH_SHORT).show();
                     headerRight.setImageResource(R.drawable.whisper_save_unpressed);
-                }
-                else {
-                    saveWhisper(etWhisper.getText().toString().trim(),time, filePath, fileName);
+                } else {
+                    saveWhisper(etWhisper.getText().toString().trim(), time, filePath, fileName);
                     finish();
                 }
             }
@@ -144,24 +143,56 @@ public class WhisperActivity extends BaseActivity {
                 return true;
             }
         });
+        etWhisper.addTextChangedListener(echo_listener);
     }
+    private View.OnClickListener camera_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            photoPopup.dismiss();
+            switch (v.getId()) {
+                case R.id.btn_take_photo:
+                    break;
+                case R.id.btn_pick_photo:
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
+    private TextWatcher echo_listener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if((s.toString().length() >= 1) && (s.toString().charAt(s.toString().length()-1) == 32)){
+                Log.d("TEST",""+s);
+                echo(s.toString());
+            }
+        }
+    };
     @Override
-    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-        super.onFlingView(e1,e2,velocityX,velocityY);
-        if(e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 4000 && Math.abs(e1.getX() - e2.getX()) < 150){
+    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        super.onFlingView(e1, e2, velocityX, velocityY);
+        if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 4000 && Math.abs(e1.getX() - e2.getX()) < 150) {
             InputMethodManager inputMethodManager =
-                    (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(etWhisper.getWindowToken(), 0);
         }
     }
+
     @Override
-    public void onSingleTapConfirmedView(){
+    public void onSingleTapConfirmedView() {
         super.onSingleTapConfirmedView();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 
 
     public void saveWhisper(String strcontent, String time, String filePath, String fileName) {
@@ -213,5 +244,8 @@ public class WhisperActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void echo(String s){
+        
     }
 }
