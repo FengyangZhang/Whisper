@@ -58,6 +58,7 @@ public class WhisperActivity extends BaseActivity {
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
     String fileName;
     String time;
+    int mood;
 
     public void getArgs(Bundle var1) {
     }
@@ -109,6 +110,8 @@ public class WhisperActivity extends BaseActivity {
         tvTime.setText(time);
         fileName = "Whisper_" + time + ".txt";
         etWhisper.requestFocus();
+        mood = 0xffdddddd;
+        etWhisper.setBackgroundColor(mood);
     }
 
 
@@ -250,10 +253,9 @@ public class WhisperActivity extends BaseActivity {
         }
     }
     public void echo(String s){
-        TrainData dataManager = new TrainData();//�øõ�������ѵ����
-        Vocabulary vocabulary = new Vocabulary();//���ݴʻ��
-        TrainVector vectorManager = new TrainVector();//����������
-        //��ʼ��
+        TrainData dataManager = new TrainData();
+        Vocabulary vocabulary = new Vocabulary();
+        TrainVector vectorManager = new TrainVector();
         dataManager.init();
         vocabulary.init(dataManager.getData());
         vectorManager.init();
@@ -275,15 +277,24 @@ public class WhisperActivity extends BaseActivity {
         int result = vectorManager.judge(testVec);
         if(result == 1){
             Toast.makeText(WhisperActivity.this, "positive words!", Toast.LENGTH_SHORT).show();
-            etWhisper.setBackgroundColor(getResources().getColor(R.color.white));
+            mood += 0x00101010;
+            if(mood <= 0xffffffff){
+                etWhisper.setBackgroundColor(mood);
+            }
+            else Toast.makeText(WhisperActivity.this, "good mood indeed!", Toast.LENGTH_SHORT).show();
         }
         else if(result == -1){
             Toast.makeText(WhisperActivity.this, "negative words!", Toast.LENGTH_SHORT).show();
-            etWhisper.setBackgroundColor(getResources().getColor(R.color.btn_white_pressed));
+            mood -= 0x00101010;
+            if(mood >= 0xff000000){
+                etWhisper.setBackgroundColor(mood);
+            }
+            else Toast.makeText(WhisperActivity.this, "bad mood indeed...", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(WhisperActivity.this, "neutral words!", Toast.LENGTH_SHORT).show();
-            etWhisper.setBackgroundColor(getResources().getColor(R.color.grey));
+            etWhisper.setBackgroundColor(mood);
         }
+        Log.d("TEST",""+mood);
     }
 }
