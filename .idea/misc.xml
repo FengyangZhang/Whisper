@@ -78,6 +78,13 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
+    <option name="sshConnectionType" value="PASSWORD" />
+    <option name="sshExecutablePath" value="svn://182.92.217.158" />
+    <option name="sshUserName" value="izhuzhu" />
+  </component>
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">

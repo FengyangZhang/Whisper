@@ -9,7 +9,10 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:textSize="@dimen/d40"
-        android:id="@+id/text"/>
+        android:id="@+id/text"
+        android:maxEms="18"
+        android:singleLine="true"
+        android:ellipsize="end"/>
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

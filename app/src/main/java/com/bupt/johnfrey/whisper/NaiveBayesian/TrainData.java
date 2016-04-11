@@ -10,11 +10,19 @@ public class TrainData {
 		trainData = new ArrayList<List<String>>();
 		trainDataClass = new ArrayList<Integer>();
 		trainData.add(Arrays.asList(new String[]{"my","dog","has","flea"}));
+		trainData.add(Arrays.asList(new String[]{"fuck","you"}));
+		trainData.add(Arrays.asList(new String[]{"hello","world"}));
 		trainData.add(Arrays.asList(new String[]{"you","are","an","ass"}));
 		trainData.add(Arrays.asList(new String[]{"don't","touch","him","asshole"}));
 		trainData.add(Arrays.asList(new String[]{"take","him","for","a","walk"}));
+		trainData.add(Arrays.asList(new String[]{"suck","my","dick"}));
+		trainData.add(Arrays.asList(new String[]{"thank","god","you","are","alright"}));
 		trainDataClass.add(0);
 		trainDataClass.add(1);
+		trainDataClass.add(0);
+		trainDataClass.add(1);
+		trainDataClass.add(1);
+		trainDataClass.add(0);
 		trainDataClass.add(1);
 		trainDataClass.add(0);
 	}
