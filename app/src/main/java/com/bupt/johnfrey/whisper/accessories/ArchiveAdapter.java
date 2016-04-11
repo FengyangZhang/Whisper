@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bupt.johnfrey.whisper.otto.DeleteArchiveEvent;
@@ -44,15 +45,17 @@ public class ArchiveAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.text = (TextView) convertView.findViewById(R.id.text);
-            holder.bt = (Button) convertView.findViewById(R.id.button); // to ItemButton
-            convertView.setTag(holder); //绑定ViewHolder对象
+            holder.layout = (LinearLayout) convertView.findViewById(R.id.item_layout);
+            holder.bt = (Button) convertView.findViewById(R.id.button);
+            convertView.setTag(holder);
         }
         else {
-            holder = (ViewHolder) convertView.getTag(); //取出ViewHolder对象
+            holder = (ViewHolder) convertView.getTag();
         }
 
         holder.time.setText(archiveItem.get(position).get("ItemTime").toString());
         holder.text.setText(archiveItem.get(position).get("ItemText").toString());
+        holder.layout.setBackgroundColor(Integer.valueOf(archiveItem.get(position).get("ItemMood").toString()));
         holder.bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +86,7 @@ public class ArchiveAdapter extends BaseAdapter {
         public TextView time;
         public TextView text;
         public Button bt;
+        public LinearLayout layout;
     }
 
 }

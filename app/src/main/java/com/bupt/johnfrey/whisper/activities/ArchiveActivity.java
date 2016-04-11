@@ -60,10 +60,14 @@ public class ArchiveActivity extends BaseActivity {
         files = menu.listFiles();
         String content;
         String time;
+        int mood;
         Boolean isFirstLine;
+        Boolean isSecondLine;
         if(files.length == 0){tvNoArchive.setVisibility(View.VISIBLE);}
         for(int j = files.length-1;j >= 0; j--){
             isFirstLine = true;
+            isSecondLine = false;
+            mood = 0xffdddddd;
             time = "";
             content = "";
             try {
@@ -75,8 +79,13 @@ public class ArchiveActivity extends BaseActivity {
                     //分行读取
                     while ((line = buffreader.readLine()) != null) {
                         if(isFirstLine){
-                            time = line;
+                            mood = Integer.parseInt(line);
                             isFirstLine = false;
+                            isSecondLine = true;
+                        }
+                        else if(isSecondLine){
+                            time = line;
+                            isSecondLine = false;
                         }
                         else {
                             content += line + "\n";
@@ -84,6 +93,7 @@ public class ArchiveActivity extends BaseActivity {
                     }
                     in.close();
                     HashMap<String, Object> map = new HashMap<>();
+                    map.put("ItemMood",mood);
                     map.put("ItemTime",time);
                     map.put("ItemText", content);
                     archiveItem.add(map);
@@ -135,6 +145,8 @@ public class ArchiveActivity extends BaseActivity {
     public void onReadArchiveEvent(ReadArchiveEvent event){
         int position = event.getPosition();
         String content = "";
+        int mood = 0xffdddddd;
+        Boolean isFirstLine = true;
         try {
             FileInputStream in = new FileInputStream(files[files.length-position-1]);
             if (in != null) {
@@ -143,7 +155,13 @@ public class ArchiveActivity extends BaseActivity {
                 String line;
                 //分行读取
                 while ((line = buffreader.readLine()) != null) {
-                    content += line + "\n";
+                    if (isFirstLine) {
+                        mood = Integer.parseInt(line);
+                        isFirstLine = false;
+                    }
+                    else{
+                        content += line + "\n";
+                    }
                 }
                 in.close();
             }
@@ -158,6 +176,7 @@ public class ArchiveActivity extends BaseActivity {
         }
         Intent intent = new Intent(activity, ReadArchiveActivity.class);
         intent.putExtra("content",content);
+        intent.putExtra("mood",mood);
         startActivity(intent);
     }
 }

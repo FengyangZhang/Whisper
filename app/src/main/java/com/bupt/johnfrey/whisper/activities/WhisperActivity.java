@@ -59,6 +59,9 @@ public class WhisperActivity extends BaseActivity {
     String fileName;
     String time;
     int mood;
+    TrainData dataManager;
+    Vocabulary vocabulary;
+    TrainVector vectorManager;
 
     public void getArgs(Bundle var1) {
     }
@@ -112,6 +115,16 @@ public class WhisperActivity extends BaseActivity {
         etWhisper.requestFocus();
         mood = 0xffdddddd;
         etWhisper.setBackgroundColor(mood);
+        dataManager = new TrainData();
+        vocabulary = new Vocabulary();
+        vectorManager = new TrainVector();
+        dataManager.init();
+        vocabulary.init(dataManager.getData());
+        vectorManager.init();
+        for(int i = 0;i<dataManager.getData().size();i++){
+            vectorManager.data2Vector(vocabulary.get(), dataManager.getData().get(i));
+        }
+        vectorManager.train(dataManager.getDataClass());
     }
 
 
@@ -135,7 +148,7 @@ public class WhisperActivity extends BaseActivity {
                     Toast.makeText(WhisperActivity.this, "Empty input", Toast.LENGTH_SHORT).show();
                     headerRight.setImageResource(R.drawable.whisper_save_unpressed);
                 } else {
-                    saveWhisper(etWhisper.getText().toString().trim(), time, filePath, fileName);
+                    saveWhisper(etWhisper.getText().toString().trim(), time, mood, filePath, fileName);
                     finish();
                 }
             }
@@ -202,12 +215,12 @@ public class WhisperActivity extends BaseActivity {
     }
 
 
-    public void saveWhisper(String strcontent, String time, String filePath, String fileName) {
+    public void saveWhisper(String strcontent, String time, int mood, String filePath, String fileName) {
         makeFilePath(filePath, fileName);
 
         String strFilePath = filePath + fileName;
 
-        String strContent = time + strcontent + "\r\n";
+        String strContent = mood+"\r\n"+time + strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
             if (!file.exists()) {
@@ -253,16 +266,6 @@ public class WhisperActivity extends BaseActivity {
         }
     }
     public void echo(String s){
-        TrainData dataManager = new TrainData();
-        Vocabulary vocabulary = new Vocabulary();
-        TrainVector vectorManager = new TrainVector();
-        dataManager.init();
-        vocabulary.init(dataManager.getData());
-        vectorManager.init();
-        for(int i = 0;i<dataManager.getData().size();i++){
-            vectorManager.data2Vector(vocabulary.get(), dataManager.getData().get(i));
-        }
-        vectorManager.train(dataManager.getDataClass());
         List<String> test = new ArrayList<>();
         List<Integer> testVec = new ArrayList<>();
         Pattern p = Pattern.compile("[.,\"\\?!:']");// 增加对应的标点

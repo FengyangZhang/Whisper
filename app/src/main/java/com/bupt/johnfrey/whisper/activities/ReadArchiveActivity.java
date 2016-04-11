@@ -20,9 +20,11 @@ public class ReadArchiveActivity extends BaseActivity {
     TextView tvArchiveText;
 
     String content;
+    int mood;
     @Override
     public void getArgs(Bundle var1) {
         Bundle args = getIntent().getExtras();
+        mood = args.getInt("mood");
         content = args.getString("content");
     }
 
@@ -34,6 +36,7 @@ public class ReadArchiveActivity extends BaseActivity {
     @Override
     public void initView() {
         tvArchiveText.setText(content);
+        tvArchiveText.setBackgroundColor(mood);
     }
 
     @Override
