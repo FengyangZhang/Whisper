@@ -82,23 +82,23 @@ public class WhisperActivity extends BaseActivity {
         // repeat many times:
         ImageView itemIcon1 = new ImageView(this);
         itemIcon1.setImageResource(R.drawable.float_button1);
-        SubActionButton button1 = itemBuilder.setContentView(itemIcon1).build();
+        SubActionButton btn_refresh = itemBuilder.setContentView(itemIcon1).build();
 
         ImageView itemIcon2 = new ImageView(this);
         itemIcon2.setImageResource(R.drawable.float_button2);
-        SubActionButton button2 = itemBuilder.setContentView(itemIcon2).build();
+        SubActionButton btn_shine = itemBuilder.setContentView(itemIcon2).build();
 
         ImageView itemIcon3 = new ImageView(this);
         itemIcon3.setImageResource(R.drawable.float_button3);
         SubActionButton btn_camera = itemBuilder.setContentView(itemIcon3).build();
 
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(button1)
-                .addSubActionView(button2)
+                .addSubActionView(btn_refresh)
+                .addSubActionView(btn_shine)
                 .addSubActionView(btn_camera)
                 .attachTo(actionButton)
                 .build();
-
+        //set listeners for the floating buttons
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,14 +107,31 @@ public class WhisperActivity extends BaseActivity {
                 photoPopup.showAtLocation(activity.findViewById(R.id.ll_whisper), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = 0xffdddddd;
+                etWhisper.setBackgroundColor(mood);
+            }
+        });
+        btn_shine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood += 0xff050505;
+                etWhisper.setBackgroundColor(mood);
+            }
+        });
+        //show current time
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         time = formatter.format(curDate) + "\r\n";
         tvTime.setText(time);
         fileName = "Whisper_" + time + ".txt";
         etWhisper.requestFocus();
+        //show current mood
         mood = 0xffdddddd;
         etWhisper.setBackgroundColor(mood);
+        //train
         dataManager = new TrainData();
         vocabulary = new Vocabulary();
         vectorManager = new TrainVector();
@@ -192,7 +209,9 @@ public class WhisperActivity extends BaseActivity {
                     (s.toString().charAt(s.toString().length()-1) == 33)||
                     (s.toString().charAt(s.toString().length()-1) == 44)||
                     (s.toString().charAt(s.toString().length()-1) == 46)||
-                    (s.toString().charAt(s.toString().length()-1) == 63))){
+                    (s.toString().charAt(s.toString().length()-1) == 63)||
+                    (s.toString().charAt(s.toString().length()-1) == 10)||
+                    (s.toString().charAt(s.toString().length()-1) == 13))){
                 echo(s.toString());
             }
         }
@@ -268,11 +287,11 @@ public class WhisperActivity extends BaseActivity {
     public void echo(String s){
         List<String> test = new ArrayList<>();
         List<Integer> testVec = new ArrayList<>();
-        Pattern p = Pattern.compile("[.,\"\\?!:']");// 增加对应的标点
+        Pattern p = Pattern.compile("[.,\"\\?!:'\r\n]");// 增加对应的标点
         Matcher m = p.matcher(s);
         s = m.replaceAll(" "); // 把英文标点符号替换成空，即去掉英文标点符号
         Log.d("TEST",s);
-        String temp[] = s.split(" ");
+        String temp[] = s.toLowerCase().split(" ");
         for(int j = 0;j < temp.length;j++){
             test.add(temp[j]);
         }
@@ -298,6 +317,5 @@ public class WhisperActivity extends BaseActivity {
             Toast.makeText(WhisperActivity.this, "neutral words!", Toast.LENGTH_SHORT).show();
             etWhisper.setBackgroundColor(mood);
         }
-        Log.d("TEST",""+mood);
     }
 }

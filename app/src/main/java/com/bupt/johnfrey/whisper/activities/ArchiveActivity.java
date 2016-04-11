@@ -136,6 +136,7 @@ public class ArchiveActivity extends BaseActivity {
     @Subscribe
     public void onDeleteArchiveEvent(DeleteArchiveEvent event){
         int position = event.getPosition();
+        files = menu.listFiles();
         files[files.length-position-1].delete();
         archiveItem.remove(position);
         archiveAdapter.notifyDataSetChanged();
