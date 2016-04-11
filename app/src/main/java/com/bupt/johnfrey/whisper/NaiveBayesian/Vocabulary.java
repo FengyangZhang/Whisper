@@ -9,7 +9,7 @@ public class Vocabulary {
 		vocabulary = new ArrayList<String>();
 		for(List<String> data:datas){
 			for(String word:data){
-				if(!vocabulary.contains(word)){//ʵ�ֲ���
+				if(!vocabulary.contains(word)){
 					vocabulary.add(word);
 				}
 			}

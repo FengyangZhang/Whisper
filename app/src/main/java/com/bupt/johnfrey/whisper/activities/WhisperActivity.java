@@ -22,9 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bupt.johnfrey.whisper.BaseActivity;
+import com.bupt.johnfrey.whisper.NaiveBayesian.TrainData;
+import com.bupt.johnfrey.whisper.NaiveBayesian.TrainVector;
+import com.bupt.johnfrey.whisper.NaiveBayesian.Vocabulary;
 import com.bupt.johnfrey.whisper.R;
 import com.bupt.johnfrey.whisper.accessories.WhisperPopupWindow;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -32,7 +34,11 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 
@@ -52,11 +58,6 @@ public class WhisperActivity extends BaseActivity {
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
     String fileName;
     String time;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     public void getArgs(Bundle var1) {
     }
@@ -171,8 +172,11 @@ public class WhisperActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if((s.toString().length() >= 1) && (s.toString().charAt(s.toString().length()-1) == 32)){
-                Log.d("TEST",""+s);
+            if((s.toString().length() >= 1) && ((s.toString().charAt(s.toString().length()-1) == 32)||
+                    (s.toString().charAt(s.toString().length()-1) == 33)||
+                    (s.toString().charAt(s.toString().length()-1) == 44)||
+                    (s.toString().charAt(s.toString().length()-1) == 46)||
+                    (s.toString().charAt(s.toString().length()-1) == 63))){
                 echo(s.toString());
             }
         }
@@ -246,6 +250,40 @@ public class WhisperActivity extends BaseActivity {
         }
     }
     public void echo(String s){
-        
+        TrainData dataManager = new TrainData();//�øõ�������ѵ����
+        Vocabulary vocabulary = new Vocabulary();//���ݴʻ��
+        TrainVector vectorManager = new TrainVector();//����������
+        //��ʼ��
+        dataManager.init();
+        vocabulary.init(dataManager.getData());
+        vectorManager.init();
+        for(int i = 0;i<dataManager.getData().size();i++){
+            vectorManager.data2Vector(vocabulary.get(), dataManager.getData().get(i));
+        }
+        vectorManager.train(dataManager.getDataClass());
+        List<String> test = new ArrayList<>();
+        List<Integer> testVec = new ArrayList<>();
+        Pattern p = Pattern.compile("[.,\"\\?!:']");// 增加对应的标点
+        Matcher m = p.matcher(s);
+        s = m.replaceAll(" "); // 把英文标点符号替换成空，即去掉英文标点符号
+        Log.d("TEST",s);
+        String temp[] = s.split(" ");
+        for(int j = 0;j < temp.length;j++){
+            test.add(temp[j]);
+        }
+        testVec = vectorManager.test2Vector(vocabulary.get(), test);
+        int result = vectorManager.judge(testVec);
+        if(result == 1){
+            Toast.makeText(WhisperActivity.this, "positive words!", Toast.LENGTH_SHORT).show();
+            etWhisper.setBackgroundColor(getResources().getColor(R.color.white));
+        }
+        else if(result == -1){
+            Toast.makeText(WhisperActivity.this, "negative words!", Toast.LENGTH_SHORT).show();
+            etWhisper.setBackgroundColor(getResources().getColor(R.color.btn_white_pressed));
+        }
+        else{
+            Toast.makeText(WhisperActivity.this, "neutral words!", Toast.LENGTH_SHORT).show();
+            etWhisper.setBackgroundColor(getResources().getColor(R.color.grey));
+        }
     }
 }
