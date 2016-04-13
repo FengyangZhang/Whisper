@@ -9,21 +9,17 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
 
-        <TextView
-            android:id="@+id/tv_new_whisper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/new_whisper"
-            android:clickable="true"
-            android:textSize="25sp"
-            android:textColor="@color/selector_color_bg"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_new_whisper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_whisper"
+        android:clickable="true"
+        android:textSize="25sp"
+        android:textColor="@color/selector_color_bg"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,4 +27,6 @@
         android:textColor="@color/bg_dark_grey"
         android:text="@string/slide_left"
         />
+
+
 </LinearLayout>

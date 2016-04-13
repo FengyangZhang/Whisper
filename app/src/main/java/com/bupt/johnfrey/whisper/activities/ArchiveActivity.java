@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bupt.johnfrey.whisper.accessories.ArchiveAdapter;
 import com.bupt.johnfrey.whisper.BaseActivity;
-import com.bupt.johnfrey.whisper.otto.DeleteArchiveEvent;
 import com.bupt.johnfrey.whisper.R;
+import com.bupt.johnfrey.whisper.accessories.ArchiveAdapter;
+import com.bupt.johnfrey.whisper.otto.DeleteArchiveEvent;
 import com.bupt.johnfrey.whisper.otto.ReadArchiveEvent;
 import com.squareup.otto.Subscribe;
 
@@ -33,6 +32,8 @@ import butterknife.Bind;
 public class ArchiveActivity extends BaseActivity {
     @Bind(R.id.ib_header_back)
     ImageButton headerBack;
+    @Bind(R.id.ib_header_right)
+    ImageButton headerRight;
     @Bind(R.id.lv_archive)
     ListView lvArchive;
     @Bind(R.id.tv_no_archive)
@@ -42,6 +43,7 @@ public class ArchiveActivity extends BaseActivity {
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
     File menu;
     File[] files;
+    ArrayList<Integer> moods;
 
     @Override
     public void getArgs(Bundle var1) {
@@ -55,6 +57,7 @@ public class ArchiveActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        moods = new ArrayList<>();
         archiveItem = new ArrayList<>();
         menu = new File(filePath);
         files = menu.listFiles();
@@ -80,6 +83,7 @@ public class ArchiveActivity extends BaseActivity {
                     while ((line = buffreader.readLine()) != null) {
                         if(isFirstLine){
                             mood = Integer.parseInt(line);
+                            moods.add(j,mood);
                             isFirstLine = false;
                             isSecondLine = true;
                         }
@@ -126,10 +130,12 @@ public class ArchiveActivity extends BaseActivity {
                 finish();
             }
         });
-        lvArchive.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        headerRight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(activity,HistoryActivity.class);
+                intent.putIntegerArrayListExtra("moods",moods);
+                startActivity(intent);
             }
         });
     }
