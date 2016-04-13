@@ -5,6 +5,7 @@ package com.bupt.johnfrey.whisper.activities;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -92,10 +93,15 @@ public class WhisperActivity extends BaseActivity {
         itemIcon3.setImageResource(R.drawable.float_button3);
         SubActionButton btn_camera = itemBuilder.setContentView(itemIcon3).build();
 
+        ImageView itemIcon4 = new ImageView(this);
+        itemIcon4.setImageResource(R.drawable.float_button4);
+        SubActionButton btn_echo = itemBuilder.setContentView(itemIcon4).build();
+
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(btn_refresh)
                 .addSubActionView(btn_shine)
                 .addSubActionView(btn_camera)
+                .addSubActionView(btn_echo)
                 .attachTo(actionButton)
                 .build();
         //set listeners for the floating buttons
@@ -119,6 +125,13 @@ public class WhisperActivity extends BaseActivity {
             public void onClick(View v) {
                 mood += 0xff101010;
                 changeBackgroundColor(1);
+            }
+        });
+        btn_echo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity,EchoActivity.class);
+                startActivity(intent);
             }
         });
         //show current time

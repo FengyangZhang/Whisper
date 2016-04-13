@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/tv_history"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:textSize="30sp"/>
 
 
 </LinearLayout>

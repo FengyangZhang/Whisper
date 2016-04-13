@@ -16,6 +16,7 @@ import butterknife.Bind;
 /**
  *  Created by zhangfengyang on 16/4/13
  */
+
 public class HistoryActivity extends BaseActivity{
     @Bind(R.id.ib_header_back)
     ImageButton headerBack;
@@ -48,7 +49,7 @@ public class HistoryActivity extends BaseActivity{
                 good_num++;
             }
         }
-        tvHistory.setText("You have "+bad_num+" days of bad mood,and "+good_num+" days of good mood.");
+        tvHistory.setText("You've recorded "+bad_num+" days of bad mood,and "+good_num+" days of good mood.");
     }
 
     @Override

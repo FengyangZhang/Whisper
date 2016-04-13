@@ -83,7 +83,7 @@ public class ArchiveActivity extends BaseActivity {
                     while ((line = buffreader.readLine()) != null) {
                         if(isFirstLine){
                             mood = Integer.parseInt(line);
-                            moods.add(j,mood);
+                            moods.add(mood);
                             isFirstLine = false;
                             isSecondLine = true;
                         }
