@@ -131,6 +131,7 @@ public class WhisperActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity,EchoActivity.class);
+                intent.putExtra("mood",mood);
                 startActivity(intent);
             }
         });
@@ -148,12 +149,16 @@ public class WhisperActivity extends BaseActivity {
         dataManager = new TrainData();
         vocabulary = new Vocabulary();
         vectorManager = new TrainVector();
+        //形成单句数组和判决数组
         dataManager.init();
+        //根据单句中出现的词语形成字典
         vocabulary.init(dataManager.getData());
         vectorManager.init();
+        //将每个单句根据字典形成对应的向量
         for(int i = 0;i<dataManager.getData().size();i++){
             vectorManager.data2Vector(vocabulary.get(), dataManager.getData().get(i));
         }
+        //根据向量和判决数组得到判决结果
         vectorManager.train(dataManager.getDataClass());
     }
 
