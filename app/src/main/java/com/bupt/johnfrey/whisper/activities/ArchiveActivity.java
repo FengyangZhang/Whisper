@@ -38,7 +38,7 @@ public class ArchiveActivity extends BaseActivity {
     ListView lvArchive;
     @Bind(R.id.tv_no_archive)
     TextView tvNoArchive;
-    ArrayList<HashMap<String,Object>> archiveItem;
+    ArrayList<HashMap<String, Object>> archiveItem;
     ArchiveAdapter archiveAdapter;
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
     File menu;
@@ -66,8 +66,10 @@ public class ArchiveActivity extends BaseActivity {
         int mood;
         Boolean isFirstLine;
         Boolean isSecondLine;
-        if(files.length == 0){tvNoArchive.setVisibility(View.VISIBLE);}
-        for(int j = files.length-1;j >= 0; j--){
+        if (files.length == 0) {
+            tvNoArchive.setVisibility(View.VISIBLE);
+        }
+        for (int j = files.length - 1; j >= 0; j--) {
             isFirstLine = true;
             isSecondLine = false;
             mood = 0xffdddddd;
@@ -81,38 +83,32 @@ public class ArchiveActivity extends BaseActivity {
                     String line;
                     //分行读取
                     while ((line = buffreader.readLine()) != null) {
-                        if(isFirstLine){
+                        if (isFirstLine) {
                             mood = Integer.parseInt(line);
                             moods.add(mood);
                             isFirstLine = false;
                             isSecondLine = true;
-                        }
-                        else if(isSecondLine){
+                        } else if (isSecondLine) {
                             time = line;
                             isSecondLine = false;
-                        }
-                        else {
+                        } else {
                             content += line + "\n";
                         }
                     }
                     in.close();
                     HashMap<String, Object> map = new HashMap<>();
-                    map.put("ItemMood",mood);
-                    map.put("ItemTime",time);
+                    map.put("ItemMood", mood);
+                    map.put("ItemTime", time);
                     map.put("ItemText", content);
                     archiveItem.add(map);
                 }
-            }
-            catch (java.io.FileNotFoundException e)
-            {
+            } catch (java.io.FileNotFoundException e) {
                 Log.d("TestFile", "The File doesn't not exist.");
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.d("TestFile", e.getMessage());
             }
         }
-        archiveAdapter = new ArchiveAdapter(this,archiveItem);
+        archiveAdapter = new ArchiveAdapter(this, archiveItem);
         lvArchive.setAdapter(archiveAdapter);
     }
 
@@ -133,29 +129,30 @@ public class ArchiveActivity extends BaseActivity {
         headerRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,HistoryActivity.class);
-                intent.putIntegerArrayListExtra("moods",moods);
+                Intent intent = new Intent(activity, HistoryActivity.class);
+                intent.putIntegerArrayListExtra("moods", moods);
                 startActivity(intent);
             }
         });
     }
+
     @Subscribe
-    public void onDeleteArchiveEvent(DeleteArchiveEvent event){
+    public void onDeleteArchiveEvent(DeleteArchiveEvent event) {
         int position = event.getPosition();
         files = menu.listFiles();
-        files[files.length-position-1].delete();
+        files[files.length - position - 1].delete();
         archiveItem.remove(position);
         archiveAdapter.notifyDataSetChanged();
     }
 
     @Subscribe
-    public void onReadArchiveEvent(ReadArchiveEvent event){
+    public void onReadArchiveEvent(ReadArchiveEvent event) {
         int position = event.getPosition();
         String content = "";
         int mood = 0xffdddddd;
         Boolean isFirstLine = true;
         try {
-            FileInputStream in = new FileInputStream(files[files.length-position-1]);
+            FileInputStream in = new FileInputStream(files[files.length - position - 1]);
             if (in != null) {
                 InputStreamReader inputreader = new InputStreamReader(in);
                 BufferedReader buffreader = new BufferedReader(inputreader);
@@ -165,25 +162,20 @@ public class ArchiveActivity extends BaseActivity {
                     if (isFirstLine) {
                         mood = Integer.parseInt(line);
                         isFirstLine = false;
-                    }
-                    else{
+                    } else {
                         content += line + "\n";
                     }
                 }
                 in.close();
             }
-        }
-        catch (java.io.FileNotFoundException e)
-        {
+        } catch (java.io.FileNotFoundException e) {
             Log.d("TestFile", "The File doesn't not exist.");
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.d("TestFile", e.getMessage());
         }
         Intent intent = new Intent(activity, ReadArchiveActivity.class);
-        intent.putExtra("content",content);
-        intent.putExtra("mood",mood);
+        intent.putExtra("content", content);
+        intent.putExtra("mood", mood);
         startActivity(intent);
     }
 }

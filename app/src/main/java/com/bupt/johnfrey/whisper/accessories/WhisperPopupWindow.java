@@ -24,7 +24,7 @@ public class WhisperPopupWindow extends PopupWindow {
     private Button btn_take_photo, btn_pick_photo, btn_cancel;
     private View mMenuView;
 
-    public WhisperPopupWindow(Activity context,OnClickListener itemsOnClick) {
+    public WhisperPopupWindow(Activity context, OnClickListener itemsOnClick) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,9 +63,9 @@ public class WhisperPopupWindow extends PopupWindow {
             public boolean onTouch(View v, MotionEvent event) {
 
                 int height = mMenuView.findViewById(R.id.pop_layout).getTop();
-                int y=(int) event.getY();
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    if(y<height){
+                int y = (int) event.getY();
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (y < height) {
                         dismiss();
                     }
                 }

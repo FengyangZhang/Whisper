@@ -21,6 +21,7 @@ public class ReadArchiveActivity extends BaseActivity {
 
     String content;
     int mood;
+
     @Override
     public void getArgs(Bundle var1) {
         Bundle args = getIntent().getExtras();

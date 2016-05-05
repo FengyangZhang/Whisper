@@ -130,8 +130,8 @@ public class WhisperActivity extends BaseActivity {
         btn_echo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,EchoActivity.class);
-                intent.putExtra("mood",mood);
+                Intent intent = new Intent(activity, EchoActivity.class);
+                intent.putExtra("mood", mood);
                 startActivity(intent);
             }
         });
@@ -155,7 +155,7 @@ public class WhisperActivity extends BaseActivity {
         vocabulary.init(dataManager.getData());
         vectorManager.init();
         //将每个单句根据字典形成对应的向量
-        for(int i = 0;i<dataManager.getData().size();i++){
+        for (int i = 0; i < dataManager.getData().size(); i++) {
             vectorManager.data2Vector(vocabulary.get(), dataManager.getData().get(i));
         }
         //根据向量和判决数组得到判决结果
@@ -201,6 +201,7 @@ public class WhisperActivity extends BaseActivity {
         });
         etWhisper.addTextChangedListener(echo_listener);
     }
+
     private View.OnClickListener camera_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -227,17 +228,18 @@ public class WhisperActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if((s.toString().length() >= 1) && ((s.toString().charAt(s.toString().length()-1) == 32)||
-                    (s.toString().charAt(s.toString().length()-1) == 33)||
-                    (s.toString().charAt(s.toString().length()-1) == 44)||
-                    (s.toString().charAt(s.toString().length()-1) == 46)||
-                    (s.toString().charAt(s.toString().length()-1) == 63)||
-                    (s.toString().charAt(s.toString().length()-1) == 10)||
-                    (s.toString().charAt(s.toString().length()-1) == 13))){
+            if ((s.toString().length() >= 1) && ((s.toString().charAt(s.toString().length() - 1) == 32) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 33) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 44) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 46) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 63) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 10) ||
+                    (s.toString().charAt(s.toString().length() - 1) == 13))) {
                 echo(s.toString());
             }
         }
     };
+
     @Override
     public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         super.onFlingView(e1, e2, velocityX, velocityY);
@@ -261,7 +263,7 @@ public class WhisperActivity extends BaseActivity {
 
         String strFilePath = filePath + fileName;
 
-        String strContent = mood+"\r\n"+time + strcontent + "\r\n";
+        String strContent = mood + "\r\n" + time + strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
             if (!file.exists()) {
@@ -306,36 +308,35 @@ public class WhisperActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-    public void echo(String s){
+
+    public void echo(String s) {
         List<String> test = new ArrayList<>();
         List<Integer> testVec = new ArrayList<>();
         Pattern p = Pattern.compile("[.,\"\\?!:'\r\n]");// 增加对应的标点
         Matcher m = p.matcher(s);
         s = m.replaceAll(" "); // 把英文标点符号替换成空，即去掉英文标点符号
-        Log.d("TEST",s);
+        Log.d("TEST", s);
         String temp[] = s.toLowerCase().split(" ");
-        for(int j = 0;j < temp.length;j++){
+        for (int j = 0; j < temp.length; j++) {
             test.add(temp[j]);
         }
         testVec = vectorManager.test2Vector(vocabulary.get(), test);
         int result = vectorManager.judge(testVec);
-        if(result == 1){
+        if (result == 1) {
             Toast.makeText(WhisperActivity.this, "positive words!", Toast.LENGTH_SHORT).show();
             mood += 0x00101010;
-            if(mood <= 0xffffffff){
+            if (mood <= 0xffffffff) {
                 changeBackgroundColor(1);
-            }
-            else Toast.makeText(WhisperActivity.this, "good mood indeed!", Toast.LENGTH_SHORT).show();
-        }
-        else if(result == -1){
+            } else
+                Toast.makeText(WhisperActivity.this, "good mood indeed!", Toast.LENGTH_SHORT).show();
+        } else if (result == -1) {
             Toast.makeText(WhisperActivity.this, "negative words!", Toast.LENGTH_SHORT).show();
             mood -= 0x00101010;
-            if(mood >= 0xff000000){
+            if (mood >= 0xff000000) {
                 changeBackgroundColor(-1);
-            }
-            else Toast.makeText(WhisperActivity.this, "bad mood indeed...", Toast.LENGTH_SHORT).show();
-        }
-        else{
+            } else
+                Toast.makeText(WhisperActivity.this, "bad mood indeed...", Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(WhisperActivity.this, "neutral words!", Toast.LENGTH_SHORT).show();
             changeBackgroundColor(0);
 

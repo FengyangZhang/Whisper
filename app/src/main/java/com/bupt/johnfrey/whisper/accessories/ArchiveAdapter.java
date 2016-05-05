@@ -22,20 +22,22 @@ import java.util.HashMap;
  *  Created by zhangfengyang on 16/4/8
  */
 public class ArchiveAdapter extends BaseAdapter {
-    ArrayList<HashMap<String,Object>> archiveItem;
+    ArrayList<HashMap<String, Object>> archiveItem;
     Context context;
     LayoutInflater mInflater;
     String filePath = Environment.getExternalStorageDirectory() + "/Whisper/";
 
-    public ArchiveAdapter(Context context, ArrayList<HashMap<String,Object>> archiveItem){
+    public ArchiveAdapter(Context context, ArrayList<HashMap<String, Object>> archiveItem) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.archiveItem = archiveItem;
     }
+
     @Override
     public int getCount() {
         return archiveItem.size();
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -48,8 +50,7 @@ public class ArchiveAdapter extends BaseAdapter {
             holder.layout = (LinearLayout) convertView.findViewById(R.id.item_layout);
             holder.bt = (Button) convertView.findViewById(R.id.button);
             convertView.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -71,6 +72,7 @@ public class ArchiveAdapter extends BaseAdapter {
 
         return convertView;
     }
+
     @Override
     public Object getItem(int position) {
         return null;

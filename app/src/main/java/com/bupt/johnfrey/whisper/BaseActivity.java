@@ -17,13 +17,14 @@ import butterknife.ButterKnife;
 /**
  *  Created by zhangfengyang on 16/4/1
  */
-public abstract class BaseActivity extends Activity{
+public abstract class BaseActivity extends Activity {
     public GestureDetector gestureDetector;
     public Context context;
     public Activity activity;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState){
-        Log.d("TEST",getClass().getSimpleName());
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.d("TEST", getClass().getSimpleName());
         setStyle();
         super.onCreate(savedInstanceState);
         this.getArgs(this.getIntent().getExtras());
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends Activity{
         this.initView();
         this.setListener();
     }
+
     private void setStyle() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
@@ -50,6 +52,7 @@ public abstract class BaseActivity extends Activity{
 //                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
+
     public abstract void getArgs(Bundle var1);
 
     public abstract int setView();
@@ -78,17 +81,21 @@ public abstract class BaseActivity extends Activity{
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            super.onFling(e1,e2,velocityX,velocityY);
+            super.onFling(e1, e2, velocityX, velocityY);
             onFlingView(e1, e2, velocityX, velocityY);
             return super.onFling(e1, e2, velocityX, velocityY);
         }
     }
 
-    public void onSingleTapConfirmedView(){}
+    public void onSingleTapConfirmedView() {
+    }
 
-    public void onDoubleTapView(){}
+    public void onDoubleTapView() {
+    }
 
-    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){}
+    public void onFlingView(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

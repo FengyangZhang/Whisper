@@ -19,6 +19,7 @@ public class EchoActivity extends BaseActivity {
     @Bind(R.id.tv_echo)
     TextView tvEcho;
     int mood;
+
     @Override
     public void getArgs(Bundle var1) {
         Bundle bundle = getIntent().getExtras();
@@ -34,11 +35,9 @@ public class EchoActivity extends BaseActivity {
     public void initView() {
         if (mood == 0xffdddddd) {
             tvEcho.setText("A smooth mood is better than anything.");
-        }
-        else if(mood > 0xffdddddd){
+        } else if (mood > 0xffdddddd) {
             tvEcho.setText("Seems like a good day for you.");
-        }
-        else if(mood < 0xffdddddd){
+        } else if (mood < 0xffdddddd) {
             tvEcho.setText("Everything will flow,just hold on.");
         }
     }
