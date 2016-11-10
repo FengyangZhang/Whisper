@@ -5,7 +5,7 @@
 Well I haven't got the time to provide an apk file, so currently to install this app you have to:
     
     1. Clone this repo.
-    2. Compile this project。
+    2. Compile this project.
     3. Install it on your Android device.
 
 ### Current features:
