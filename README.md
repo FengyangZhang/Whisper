@@ -1,6 +1,13 @@
 # Whisper
 ## Whisper is an Android diary app, featuring a novel function - to detect the owner's mood, and reacts with color switching or corresponding responses.
 
+### How to install:
+Well I haven't got the time to provide an apk file, so currently to install this app you have to:
+    
+    1. Clone this repo.
+    2. Compile this project.
+    3. Install it on your Android device.
+
 ### Current features:
     
     1. Color switching function, under which is a naive Bayesian method.
